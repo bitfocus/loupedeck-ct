@@ -1,0 +1,125 @@
+Loupedeck
+
+Core/cmd defs (from device)
+05 01 encoder steps
+05 00 buttons
+09 4d touch press
+09 6d touch release
+09 52 touch press (wheel)
+09 72 touch release (wheel)
+
+Core/cmd defs (to device)
+07 02 99 07 1e 4d 19 <- set RGB value (3 last bytes) to key 07
+07 02 85 07 00 00 00  <- black out key 07
+byte 3 is maybe a rolling number per update. keeps increasing..
+
+
+Touch screens (0,0)
+09 4d 00 00 00 11 00 0e 0c
+
+Other side of same screen (max,0)
+09 4d 00 00 00 32 00 0f 10
+                            x.       y.   ^ touch event
+
+Touch screen on the big knob
+
+press (52)
+09 52 00 00 00 79 00 78 00
+
+release(72)
+09 72 00 00 00 79 00 78 00
+                                            ^ touch event (no multi touch on this one)
+
+Touch down at left screen and release up in the bottom
+
+09 4d 00 00 00 e2 00 11 19 (touch down on top left)
+09 4d 00 00 00 25 00 24 19 (slide further down)
+09 4d 00 00 00 21 00 3e 19 (further)
+09 4d 00 00 00 20 00 50 19 (further)
+09 4d 00 00 00 21 00 65 19 (further)
+09 4d 00 00 00 23 00 7b 19 (further)
+09 4d 00 00 00 25 00 8f 19 (further)
+09 4d 00 00 00 26 00 a3 19 (further)
+09 4d 00 00 00 25 00 f4 19 (further)
+09 4d 00 00 00 22 01 04 19 (further)
+09 6d 00 00 00 22 01 04 19 (release)
+                             x.       y.  ^ touch event id
+
+09 4d 00 00 01 b7 00 19 1f (press of top right)
+09 6d 00 00 01 b7 00 19 1f (release of top right)
+
+Buttons and encoders
+05 01 00 00 ff - huge encoder back
+05 01 00 00 01 - huge encoder fwd
+
+05 01 00 01 ff - left encoder 1 back
+05 01 00 01 01 - left encoder 1 fwd
+05 00 00 01 00 - left encoder 1 press
+05 00 00 01 01 - left encoder 1 release
+05 01 00 02 ff - left encoder 2 back
+05 01 00 02 01 - left encoder 2 fwd
+05 00 00 02 00 - left encoder press
+05 00 00 02 01 - left encoder release
+05 01 00 03 ff - left encoder 3 back
+05 01 00 03 01 - left encoder 3 fwd
+05 00 00 03 00 - left encoder press
+05 00 00 03 01 - left encoder release
+
+05 01 00 04 ff - right encoder 1 back
+05 01 00 04 01 - right encoder 1 fwd
+05 00 00 04 00 - right encoder 1 press
+05 00 00 04 01 - right encoder 1 release
+05 01 00 05 ff - right encoder 2 back
+05 01 00 05 01 - right encoder 2 fwd
+05 00 00 05 00 - right encoder 2 press
+05 00 00 05 01 - right encoder 2 release
+05 01 00 06 ff - right encoder 3 back
+05 01 00 06 01 - right encoder 3 fwd
+05 00 00 06 00 - right encoder 3 press
+05 00 00 06 01 - right encoder 3 release
+
+05 00 00 07 00 - button 1 press
+05 00 00 07 01 - button 1 release
+05 00 00 08 00 - button 2 press
+05 00 00 08 01 - button 2 release
+05 00 00 09 00 - button 3 press
+05 00 00 09 01 - button 3 release
+05 00 00 0a 00 - button 4 press
+05 00 00 0a 01 - button 4 release
+05 00 00 0b 00 - button 5 press
+05 00 00 0b 01 - button 5 release
+05 00 00 0c 00 - button 6 press
+05 00 00 0c 01 - button 6 release
+05 00 00 0d 00 - button 7 press
+05 00 00 0d 01 - button 7 release
+05 00 00 0e 00 - button 8 press
+05 00 00 0e 01 - button 8 release
+
+05 00 00 0f 00 - button O (below tab) press
+05 00 00 0f 01 - button O (below tab) release
+05 00 00 10 00 - undo press 
+05 00 00 10 01 - undo release
+05 00 00 11 00 - keyboard button press 
+05 00 00 11 01 - keyboard button release
+05 00 00 12 00 - return button press 
+05 00 00 12 01 - return button release
+05 00 00 13 00 - save press 
+05 00 00 13 01 - save release
+05 00 00 14 00 - fn left press 
+05 00 00 14 01 - fn left release
+05 00 00 15 00 - A/arrow up press 
+05 00 00 15 01 - A/arrow up release
+05 00 00 16 00 - C/arrow left press 
+05 00 00 16 01 - C/arrow left release
+05 00 00 17 00 - fn right press 
+05 00 00 17 01 - fn right release
+05 00 00 18 00 - b/arrow down press 
+05 00 00 18 01 - b/arrow down release
+05 00 00 19 00 - d/arrow right press 
+05 00 00 19 01 - d/arrow right release
+05 00 00 1a 00 - e press 
+05 00 00 1a 01 - e release
+
+
+
+1016 + 1016 + 1016 + 1016 + 1016 + 
