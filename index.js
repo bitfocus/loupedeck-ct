@@ -25,41 +25,6 @@ class LoupedeckCT extends EventEmitter {
 			this.connected = true;
 			this.connection = connection;
 
-			this.emit('connect');
-
-			/* whaaaaaa... well, please go to line 63 and act as you didn't see anything */
-			this.connection.send(Buffer.from("130e013da81c9ba72a8c87d4f6a135a289066c", "hex"));
-			this.connection.send(Buffer.from("131c0261f1392a8e936ba66e992daedb40f65f", "hex"));
-			this.connection.send(Buffer.from("030703", "hex"));
-			this.connection.send(Buffer.from("030d04", "hex"));
-			this.connection.send(Buffer.from("030405", "hex"));
-			this.connection.send(Buffer.from("030306", "hex"));
-			this.connection.send(Buffer.from("041a0700", "hex"));
-			this.connection.send(Buffer.from("041a0801", "hex"));
-			this.connection.send(Buffer.from("041a0902", "hex"));
-			this.connection.send(Buffer.from("041e0a00", "hex"));
-			this.connection.send(Buffer.from("04090b03", "hex"));
-			this.connection.send(Buffer.from("07020c07000000", "hex"));
-			this.connection.send(Buffer.from("07020d08000000", "hex"));
-			this.connection.send(Buffer.from("07020e09000000", "hex"));
-			this.connection.send(Buffer.from("07020f0a000000", "hex"));
-			this.connection.send(Buffer.from("0702100b000000", "hex"));
-			this.connection.send(Buffer.from("0702110c000000", "hex"));
-			this.connection.send(Buffer.from("0702120d000000", "hex"));
-			this.connection.send(Buffer.from("0702130e000000", "hex"));
-			this.connection.send(Buffer.from("0702140f000000", "hex"));
-			this.connection.send(Buffer.from("07021510000000", "hex"));
-			this.connection.send(Buffer.from("07021611000000", "hex"));
-			this.connection.send(Buffer.from("07021712000000", "hex"));
-			this.connection.send(Buffer.from("07021813000000", "hex"));
-			this.connection.send(Buffer.from("07021914000000", "hex"));
-			this.connection.send(Buffer.from("07021a15000000", "hex"));
-			this.connection.send(Buffer.from("07021b16000000", "hex"));
-			this.connection.send(Buffer.from("07021c17000000", "hex"));
-			this.connection.send(Buffer.from("07021d18000000", "hex"));
-			this.connection.send(Buffer.from("07021e19000000", "hex"));
-			this.connection.send(Buffer.from("07021f1a000000", "hex"));
-			
 			// Socket errors
 			connection.on('error', (error) => {
 				this.connected = false;
@@ -89,10 +54,13 @@ class LoupedeckCT extends EventEmitter {
 			// probably delay this until we KNOW we're connected to a real
 			// device.. But.. Who cares? ..I do. But you probably don't. :/
 			if (connection.connected) {
-				this.outboundFirstPost(connection);
-				this.outboundGetSerial(connection);
+				this.outboundFirstPost();
+				this.outboundGetSerial();
 			}
-			
+
+			// Allright, we're ready.
+			this.emit('connect');
+
 
 		});
 
@@ -140,7 +108,7 @@ class LoupedeckCT extends EventEmitter {
 		const id = this.responseCallbackAdd(callback);
 
 		let bigbuf1 = Buffer.from('ff10210041000000000168010e', 'hex');
-		let bigbuf2 = Buffer.alloc(bigbuf1.length+(270*360*2)).fill(0xff);//new Buffer(fs.readFileSync('dump.txt').toString(), 'hex');
+		let bigbuf2 = Buffer.alloc(bigbuf1.length + (270*360*2)).fill(0xff);//new Buffer(fs.readFileSync('dump.txt').toString(), 'hex');
 		var rgbOffset = 0;
 		for (let i = 15; i < bigbuf2.length; i += 2) {
 			bigbuf2.writeUInt16BE(this.rgb2col(
@@ -151,7 +119,7 @@ class LoupedeckCT extends EventEmitter {
 			rgbOffset += 3;
 		}
 		bigbuf1.copy(bigbuf2, 0, 0, bigbuf1.length);
-		let bigbuf3 = new Buffer('050f210041', 'hex');
+		let bigbuf3 = Buffer.from('050f210041', 'hex');
 		bigbuf3.writeUInt8(id, 2);
 		this.connection.send(bigbuf2);
 		this.connection.send(bigbuf3);
@@ -165,20 +133,20 @@ class LoupedeckCT extends EventEmitter {
 			bigbuf2.writeUInt16BE(this.rgb2col(255,0,0), i);
 		}
 		bigbuf1.copy(bigbuf2, 0, 0, bigbuf1.length);
-		bigbuf3 = new Buffer('050f23004c', 'hex');
+		bigbuf3 = Buffer.from('050f23004c', 'hex');
 		this.connection.send(bigbuf2);
 		this.connection.send(bigbuf3);
 
 
 
 		// one right screen?
-		bigbuf1 = new Buffer('ff1024005200000000003c010e', 'hex');
+		bigbuf1 = Buffer.from('ff1024005200000000003c010e', 'hex');
 		bigbuf2 = Buffer.alloc(bigbuf1.length+(270*60*2)).fill(0x00);
 		for (let i = 1; i < bigbuf2.length; i += 2) {
 			bigbuf2.writeUInt16BE(this.rgb2col(255,0,0), i);
 		}
 		bigbuf1.copy(bigbuf2, 0, 0, bigbuf1.length);
-		bigbuf3 = new Buffer('050f240052', 'hex');
+		bigbuf3 = Buffer.from('050f240052', 'hex');
 		this.connection.send(bigbuf2);
 		this.connection.send(bigbuf3);
 
@@ -193,10 +161,10 @@ class LoupedeckCT extends EventEmitter {
 	// 240x240 pixels. Trust me. We know.
 	drawRotaryRGB(rgbBuffer, callback) {
 		const id = this.responseCallbackAdd(callback);
-		let draw_start = new Buffer('ff102600570000000000f000f0', 'hex');
+		let draw_start = Buffer.from('ff102600570000000000f000f0', 'hex');
 		let start_and_pixelspace = Buffer.alloc(115200);
 		draw_start.copy(start_and_pixelspace, 0, 0, 14);
-		let draw_end = new Buffer('050f000057', 'hex');
+		let draw_end = Buffer.from('050f000057', 'hex');
 		draw_end.writeUInt8(id, 2);
 		let rgbOffset = 0;
 		for (let i = 14; i < start_and_pixelspace.length; i += 2) {
@@ -218,15 +186,46 @@ class LoupedeckCT extends EventEmitter {
 		return ((g >> 5) & 0b111) | (((r >> 3) & 0b11111) << 3) | (((b >> 3) & 0b11111) << 8);
 	}
 
-	outboundFirstPost(connection) {
-		let buf = Buffer.from("\x13\x0e\x01");
-		connection.send(buf);
+	outboundFirstPost() {
+
+		/* move along, nothing to see here.. act as you didn't see anything */
+		this.connection.send(Buffer.from("130e013da81c9ba72a8c87d4f6a135a289066c", "hex"));
+		this.connection.send(Buffer.from("131c0261f1392a8e936ba66e992daedb40f65f", "hex"));
+		this.connection.send(Buffer.from("030703", "hex"));
+		this.connection.send(Buffer.from("030d04", "hex"));
+		this.connection.send(Buffer.from("030405", "hex"));
+		this.connection.send(Buffer.from("041a0700", "hex"));
+		this.connection.send(Buffer.from("041a0801", "hex"));
+		this.connection.send(Buffer.from("041a0902", "hex"));
+		this.connection.send(Buffer.from("041e0a00", "hex"));
+		this.connection.send(Buffer.from("04090b03", "hex"));
+		this.connection.send(Buffer.from("07020c07000000", "hex"));
+		this.connection.send(Buffer.from("07020d08000000", "hex"));
+		this.connection.send(Buffer.from("07020e09000000", "hex"));
+		this.connection.send(Buffer.from("07020f0a000000", "hex"));
+		this.connection.send(Buffer.from("0702100b000000", "hex"));
+		this.connection.send(Buffer.from("0702110c000000", "hex"));
+		this.connection.send(Buffer.from("0702120d000000", "hex"));
+		this.connection.send(Buffer.from("0702130e000000", "hex"));
+		this.connection.send(Buffer.from("0702140f000000", "hex"));
+		this.connection.send(Buffer.from("07021510000000", "hex"));
+		this.connection.send(Buffer.from("07021611000000", "hex"));
+		this.connection.send(Buffer.from("07021712000000", "hex"));
+		this.connection.send(Buffer.from("07021813000000", "hex"));
+		this.connection.send(Buffer.from("07021914000000", "hex"));
+		this.connection.send(Buffer.from("07021a15000000", "hex"));
+		this.connection.send(Buffer.from("07021b16000000", "hex"));
+		this.connection.send(Buffer.from("07021c17000000", "hex"));
+		this.connection.send(Buffer.from("07021d18000000", "hex"));
+		this.connection.send(Buffer.from("07021e19000000", "hex"));
+		this.connection.send(Buffer.from("07021f1a000000", "hex"));
+		
 	}
 
 
-	outboundGetSerial(connection) {
+	outboundGetSerial() {
 		let buf = Buffer.from("\x03\x03\x06"); // get serial
-		connection.send(buf);
+		this.connection.send(buf);
 	}
 
 	buttonColor(id, red, green, blue, callback) {

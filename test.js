@@ -1,25 +1,39 @@
 let CT = require('./index');
-let ct = new CT({ uri: 'ws://100.127.41.1:80/'})
 var fs = require('fs');
 var PNG = require('pngjs').PNG;
+
+var getips = require('get-ip-addresses').default;
+let ip = getips().find( ip => ip.match(/^100\.127\./) );
+if (ip === undefined) {
+	console.error("Unable to find device");
+	process.exit(1);
+}
+else {
+	ip = ip.replace(/\.2$/,".1");
+}
+
+let ct = new CT({ uri: 'ws://'+ip+':80/'})
+
 
 let ongoing = false;
 let ongoing2 = false;
 let intensity = 255;
 
 ct.on('event', (payload) => {
+
 	console.log("CT Event", payload);
+
 	if (payload.action === 'encoder_step') {
 		if (payload.direction == 'left') { if (intensity>=5) intensity-=5; }
 		if (payload.direction == 'right') { if (intensity<250) intensity+=5; }
-
 	}
+
 	if (payload.action === 'button_press') {
 
 		
 		let pixels = Buffer.alloc(360*270*3);
 
-		fs.createReadStream('img/bfstor.png').pipe(
+		fs.createReadStream('./research/img/bfstor.png').pipe(
 			new PNG({
 				filterType: 4
 			}
@@ -41,11 +55,9 @@ ct.on('event', (payload) => {
 
 		});
 		
-	
-		
 		let pixels2 = Buffer.alloc(240*240*3);
 
-		fs.createReadStream('img/bf.png').pipe(
+		fs.createReadStream('./research/img/bf.png').pipe(
 			new PNG({
 				filterType: 4
 			}
@@ -67,9 +79,6 @@ ct.on('event', (payload) => {
 
 		});
 		
-
-
-	
 	}
 
 

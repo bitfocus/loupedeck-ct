@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "get-ip-addresses": "^1.1.0",
     "node-ssdp": "^4.0.0",
     "pngjs": "^3.4.0",
     "websocket": "^1.0.31"

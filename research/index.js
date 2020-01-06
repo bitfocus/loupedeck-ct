@@ -211,50 +211,50 @@ client.on('connect', function(connection) {
 		connection.send(Buffer.from("07021e19000000", "hex"));
 		connection.send(Buffer.from("07021f1a000000", "hex"));
 
-
-		let bigbuf1 = new Buffer('ff10210041000000000168010e', 'hex');
-		let bigbuf2 = Buffer.alloc(bigbuf1.length+(270*360*2)).fill(0xff);
-		for (let i = 1; i < bigbuf2.length; i += 2) {
-			bigbuf2.writeUInt16BE(rgb2col(0,255,0), i);
-		}
-		bigbuf1.copy(bigbuf2, 0, 0, bigbuf1.length);
-		let bigbuf3 = new Buffer('050f210041', 'hex');
-		connection.send(bigbuf2);
-		connection.send(bigbuf3);
-
-
-		
-
-		bigbuf1 = new Buffer('ff1023004c00000000003c010e', 'hex');
-		bigbuf2 = Buffer.alloc(bigbuf1.length+(270*60*2)).fill(0xff);
-		for (let i = 1; i < bigbuf2.length; i += 2) {
-			bigbuf2.writeUInt16BE(rgb2col(255,0,255), i);
-		}
-		bigbuf1.copy(bigbuf2, 0, 0, bigbuf1.length);
-		bigbuf3 = new Buffer('050f23004c', 'hex');
-		connection.send(bigbuf2);
-		connection.send(bigbuf3);
+		setInterval(() => {
+			let bigbuf1 = new Buffer('ff10210041000000000168010e', 'hex');
+			let bigbuf2 = Buffer.alloc(bigbuf1.length+(270*360*2)).fill(0xff);
+			for (let i = 1; i < bigbuf2.length; i += 2) {
+				bigbuf2.writeUInt16BE(rgb2col(0,255,0), i);
+			}
+			bigbuf1.copy(bigbuf2, 0, 0, bigbuf1.length);
+			let bigbuf3 = new Buffer('050f210041', 'hex');
+			connection.send(bigbuf2);
+			connection.send(bigbuf3);
 
 
+			
+
+			bigbuf1 = new Buffer('ff1023004c00000000003c010e', 'hex');
+			bigbuf2 = Buffer.alloc(bigbuf1.length+(270*60*2)).fill(0xff);
+			for (let i = 1; i < bigbuf2.length; i += 2) {
+				bigbuf2.writeUInt16BE(rgb2col(255,0,255), i);
+			}
+			bigbuf1.copy(bigbuf2, 0, 0, bigbuf1.length);
+			bigbuf3 = new Buffer('050f23004c', 'hex');
+			connection.send(bigbuf2);
+			connection.send(bigbuf3);
 
 
-		bigbuf1 = new Buffer('ff1024005200000000003c010e', 'hex');
-		bigbuf2 = Buffer.alloc(bigbuf1.length+(270*60*2)).fill(0x00);
-		for (let i = 1; i < bigbuf2.length; i += 2) {
-			bigbuf2.writeUInt16BE(rgb2col(255,0,0), i);
-		}
-		bigbuf1.copy(bigbuf2, 0, 0, bigbuf1.length);
-		bigbuf3 = new Buffer('050f240052', 'hex');
-		connection.send(bigbuf2);
-		connection.send(bigbuf3);
 
 
-		connection.send(Buffer.from('07024214052929', 'hex'));
-		connection.send(Buffer.from('07024317052929', 'hex'));
-		connection.send(buffi2);
-		connection.send(buffi3);
+			bigbuf1 = new Buffer('ff1024005200000000003c010e', 'hex');
+			bigbuf2 = Buffer.alloc(bigbuf1.length+(270*60*2)).fill(0x00);
+			for (let i = 1; i < bigbuf2.length; i += 2) {
+				bigbuf2.writeUInt16BE(rgb2col(255,0,0), i);
+			}
+			bigbuf1.copy(bigbuf2, 0, 0, bigbuf1.length);
+			bigbuf3 = new Buffer('050f240052', 'hex');
+			connection.send(bigbuf2);
+			connection.send(bigbuf3);
 
 
+			connection.send(Buffer.from('07024214052929', 'hex'));
+			connection.send(Buffer.from('07024317052929', 'hex'));
+			connection.send(buffi2);
+			connection.send(buffi3);
+
+		}, 1000);
 		/*
 		connection.send(Buffer.from('041a4600', 'hex'));
 		connection.send(Buffer.from('041a4700', 'hex'));
@@ -298,8 +298,8 @@ client.on('connect', function(connection) {
 		connection.send(bigbuf3);
 		*/
 
-		buf = Buffer.from("\x03\x03\x06"); // get serial
-		connection.send(buf);
+		//buf = Buffer.from("\x03\x03\x06"); // get serial
+		//connection.send(buf);
 
 
 	}

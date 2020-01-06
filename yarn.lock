@@ -74,6 +74,13 @@ extend@^3.0.1:
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
 
+get-ip-addresses@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/get-ip-addresses/-/get-ip-addresses-1.1.0.tgz#4d75e1ada93eab36f48e5e8a3ba6d340627e13db"
+  integrity sha512-NjY0qeKGu4plPn89k1fYmjnXT7/ZxURgw4VbYsVkq15C6yDsitWOekVMUbf4fxgO2D0KS8thap+YYXjBZz8lRw==
+  dependencies:
+    lodash "^4.0.0"
+
 ip@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
@@ -84,7 +91,7 @@ is-typedarray@^1.0.0:
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
   integrity sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=
 
-lodash@^4.17.14:
+lodash@^4.0.0, lodash@^4.17.14:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
