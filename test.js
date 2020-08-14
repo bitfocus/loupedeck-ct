@@ -1,6 +1,7 @@
 let CT = require('./index');
 var fs = require('fs');
 var PNG = require('pngjs').PNG;
+const grafikk = require('@bitfocusas/grafikk');
 
 var getips = require('get-ip-addresses').default;
 let ip = getips().find( ip => ip.match(/^100\.127\./) );

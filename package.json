@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@bitfocusas/grafikk": "https://github.com/bitfocusas/grafikk.git",
     "get-ip-addresses": "^1.1.0",
+    "lodash": "^4.17.19",
     "node-ssdp": "^4.0.0",
     "pngjs": "^3.4.0",
     "websocket": "^1.0.31"
