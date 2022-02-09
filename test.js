@@ -1,4 +1,4 @@
-let CT = require('./index');
+let CT = require('./index').Device;
 var fs = require('fs');
 var PNG = require('pngjs').PNG;
 const grafikk = require('@bitfocusas/grafikk');
